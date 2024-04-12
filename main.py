@@ -23,7 +23,7 @@ def Recognition():
     data = data.get('data')
     # 读取图片
     pic = None
-    url = 's61.jpg'
+    # url = '62.jpg'
     try:
         pic = cv2.imread(url)
     except:
@@ -43,6 +43,8 @@ def Recognition():
         if item['type'] == 'buttom':
             image, Width, Height = slide(pic, item['location'])
             # 获取按钮状态
+            # cv2.imshow('a',image)
+            # cv2.waitKey()
             result, flag = BottomDet.decter(image)
             dataa['result'] = str(result)
             # 获取时间戳
