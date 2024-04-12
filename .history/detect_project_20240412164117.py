@@ -26,17 +26,17 @@ def yolov8m(img, \
     # print(detections)
 
     # 定义匹配阈值
-    threshold = 400  # 这个阈值需要根据具体情况进行调整
+    threshold = 300  # 这个阈值需要根据具体情况进行调整
     # print(detections[0].boxes)
     # print(len(detections))
     boxesList = []
-    # print(detections[0])
+    print(detections[0])
     for item in detections[0].boxes:
         boxesList.append(item.xyxy.squeeze())
     # boxesList = sorted(boxesList, key=lambda b: (b[1], b[0]))
     lines = sorted(boxesList, key=lambda b: (b[1]))
     lineOne = lines[:3]
-    lineTwo = lines[3:6]
+    lineTwo = lines[3:]
     # lineOne = sorted(lineOne, key=lambda b: (b[0]))
     # lineTwo = sorted(lineTwo, key=lambda b: (b[0]))
     boxesList = sorted(lineOne, key=lambda b: (b[0])) + sorted(lineTwo, key=lambda b: (b[0]))
@@ -46,7 +46,7 @@ def yolov8m(img, \
     #     preset_center_x = (preset_box[0] + preset_box[2]) / 2
     #     preset_center_y = (preset_box[1] + preset_box[3]) / 2
 
-    for boxIndex, detection_box in enumerate(boxesList):
+    for boxIndex, detection_box in enumerate(boxesList[:6]):
         # 1白色：(255, 255, 255)
         # 2黑色：(0, 0, 0)
         # 3红色：(0, 0, 255)

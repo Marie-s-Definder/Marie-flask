@@ -23,7 +23,7 @@ def Recognition():
     data = data.get('data')
     # 读取图片
     pic = None
-    url = 'k63.jpg'
+    url = 'p63.jpg'
     try:
         pic = cv2.imread(url)
     except:

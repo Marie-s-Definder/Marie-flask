@@ -36,7 +36,7 @@ def yolov8m(img, \
     # boxesList = sorted(boxesList, key=lambda b: (b[1], b[0]))
     lines = sorted(boxesList, key=lambda b: (b[1]))
     lineOne = lines[:3]
-    lineTwo = lines[3:6]
+    lineTwo = lines[3:-2]
     # lineOne = sorted(lineOne, key=lambda b: (b[0]))
     # lineTwo = sorted(lineTwo, key=lambda b: (b[0]))
     boxesList = sorted(lineOne, key=lambda b: (b[0])) + sorted(lineTwo, key=lambda b: (b[0]))
