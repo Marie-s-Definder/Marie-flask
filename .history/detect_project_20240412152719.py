@@ -26,42 +26,37 @@ def yolov8m(img, \
     # print(detections)
 
     # 定义匹配阈值
-    threshold = 500  # 这个阈值需要根据具体情况进行调整
+    threshold = 400  # 这个阈值需要根据具体情况进行调整
     # print(detections[0].boxes)
     # print(len(detections))
     boxesList = []
     for item in detections[0].boxes:
         boxesList.append(item.xyxy.squeeze())
-    boxesList = sorted(boxesList, key=lambda x: (x[1], x[0]))
-    # print(len(boxesList))
-    # for i, preset_box in enumerate(preset_boxes):        
-    #     # 计算预置框的中心点坐标
-    #     preset_center_x = (preset_box[0] + preset_box[2]) / 2
-    #     preset_center_y = (preset_box[1] + preset_box[3]) / 2
+    print(type(boxesList))
+    for i, preset_box in enumerate(preset_boxes):        
+        # 计算预置框的中心点坐标
+        preset_center_x = (preset_box[0] + preset_box[2]) / 2
+        preset_center_y = (preset_box[1] + preset_box[3]) / 2
 
-    for boxIndex, detection_box in enumerate(boxesList[:-2]):
-        # print(detections[0].boxes)
-        # 计算检测结果框的中心点坐标
-        # detection_box = detection_box
-        # detection_box = detection_box.xyxy.squeeze()
-        # print(detection_box)
-        detection_center_x = (detection_box[0] + detection_box[2]) / 2
-        detection_center_y = (detection_box[1] + detection_box[3]) / 2
-        # print(len(preset_boxes))
-        # 计算中心点之间的距离
-        preset_center_x = (preset_boxes[boxIndex][0] + preset_boxes[boxIndex][2]) / 2
-        preset_center_y = (preset_boxes[boxIndex][1] + preset_boxes[boxIndex][3]) / 2
-        distance = math.sqrt((detection_center_x - preset_center_x) ** 2 + (detection_center_y - preset_center_y) ** 2)
-        # print(distance)
-        # 如果距离小于阈值，则认为是匹配的框
-        if distance < threshold:
-            # print('2')
-            output[boxIndex] = not output[boxIndex]
-        # 删除已经比对的元素
-        # boxesList.pop(boxIndex)
-        # else:
-        #     print('no')
-        # print(a)
+        for detection_box in boxesList:
+            # print(detections[0].boxes)
+            # 计算检测结果框的中心点坐标
+            # detection_box = detection_box
+            detection_box = detection_box.xyxy.squeeze()
+            print(detection_box)
+            detection_center_x = (detection_box[0] + detection_box[2]) / 2
+            detection_center_y = (detection_box[1] + detection_box[3]) / 2
+
+            # 计算中心点之间的距离
+            distance = math.sqrt((detection_center_x - preset_center_x) ** 2 + (detection_center_y - preset_center_y) ** 2)
+            # print(distance)
+            # 如果距离小于阈值，则认为是匹配的框
+            if distance < threshold:
+                # print('2')
+                output[i] = not output[i]
+            # else:
+            #     print('no')
+            # print(a)
                 
     return output, preset_boxes
     # 输出匹配结果数组

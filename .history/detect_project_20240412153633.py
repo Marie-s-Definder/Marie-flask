@@ -18,7 +18,7 @@ def yolov8m(img, \
     # model = YOLO('/root/autodl-tmp/yolov8/ultralytics/models/v8/yolov8m-enhance.yaml').load('/root/autodl-tmp/yolov8/yolov8m.pt')
     # Use the model
     # img = cv2.imread(path)
-    detections = model.predict(source=img, save=False)  # train the model
+    detections = model.predict(source=img, save=True)  # train the model
     # print(detections)
     # print('yes')
 
@@ -33,21 +33,21 @@ def yolov8m(img, \
     for item in detections[0].boxes:
         boxesList.append(item.xyxy.squeeze())
     boxesList = sorted(boxesList, key=lambda x: (x[1], x[0]))
-    # print(len(boxesList))
+    print(len(boxesList))
     # for i, preset_box in enumerate(preset_boxes):        
     #     # 计算预置框的中心点坐标
     #     preset_center_x = (preset_box[0] + preset_box[2]) / 2
     #     preset_center_y = (preset_box[1] + preset_box[3]) / 2
 
-    for boxIndex, detection_box in enumerate(boxesList[:-2]):
+    for boxIndex, detection_box in enumerate(boxesList):
         # print(detections[0].boxes)
         # 计算检测结果框的中心点坐标
         # detection_box = detection_box
         # detection_box = detection_box.xyxy.squeeze()
-        # print(detection_box)
+        print(detection_box)
         detection_center_x = (detection_box[0] + detection_box[2]) / 2
         detection_center_y = (detection_box[1] + detection_box[3]) / 2
-        # print(len(preset_boxes))
+
         # 计算中心点之间的距离
         preset_center_x = (preset_boxes[boxIndex][0] + preset_boxes[boxIndex][2]) / 2
         preset_center_y = (preset_boxes[boxIndex][1] + preset_boxes[boxIndex][3]) / 2

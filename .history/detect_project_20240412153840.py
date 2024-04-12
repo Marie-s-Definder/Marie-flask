@@ -44,10 +44,10 @@ def yolov8m(img, \
         # 计算检测结果框的中心点坐标
         # detection_box = detection_box
         # detection_box = detection_box.xyxy.squeeze()
-        # print(detection_box)
+        print(detection_box)
         detection_center_x = (detection_box[0] + detection_box[2]) / 2
         detection_center_y = (detection_box[1] + detection_box[3]) / 2
-        # print(len(preset_boxes))
+        print(len(preset_boxes))
         # 计算中心点之间的距离
         preset_center_x = (preset_boxes[boxIndex][0] + preset_boxes[boxIndex][2]) / 2
         preset_center_y = (preset_boxes[boxIndex][1] + preset_boxes[boxIndex][3]) / 2

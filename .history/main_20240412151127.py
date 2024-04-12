@@ -100,7 +100,6 @@ def Recognition():
             six = [int(x) for x in item['preset_boxes6'].split(',')]
             thebox = [one, two, three, four, five, six]
             results, draw_boxes = yolov8m(image, preset_boxes=thebox)
-            print(results)
             # 获取时间戳
             timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             #
