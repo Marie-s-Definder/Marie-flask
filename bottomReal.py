@@ -48,19 +48,18 @@ class Bottom():
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         binary = cv2.adaptiveThreshold(~gray, 255,
                                        cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 7, -6)
-        # cv2.imshow("binary", binary)
-        # cv2.waitKey()
+
         # 闭运算
-        kernel = np.ones((3, 3), np.uint8)
+        kernel = np.ones((1, 1), np.uint8)
         binary = cv2.dilate(binary, kernel, iterations=1)
-        # cv2.imshow("binary", binary)
-        # cv2.waitKey()
-        lines = cv2.HoughLinesP(binary, 1, np.pi / 180, 1, minLineLength=int(img.shape[0] / 6), maxLineGap=2)
+
+        lines = cv2.HoughLinesP(binary, 1, np.pi / 180, 1, minLineLength=int(img.shape[0] / 8), maxLineGap=2)
         nmask = np.zeros(binary.shape, np.uint8)
+
         for line in lines:
             x1, y1, x2, y2 = line[0]
-            cv2.line(nmask, (x1, y1), (x2, y2), 100, 1, cv2.LINE_AA)
-        # cv2.imshow("nmask", nmask)
+            cv2.line(nmask, (x1, y1), (x2, y2), 100, 2, cv2.LINE_AA)
+        # cv2.imshow("binary", nmask)
         # cv2.waitKey()
         # nmask = cv2.erode(nmask, kernel, iterations=1)
         cnts, _ = cv2.findContours(nmask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
@@ -75,6 +74,10 @@ class Bottom():
         y1 = int(k * x1 + b)
         y2 = int(k * x2 + b)
         cv2.line(img, (x1, y1), (x2, y2), (0, 23, 255), 1, cv2.LINE_AA)
+        # cv2.imshow("binary", img)
+        # cv2.waitKey()
+
+        # 只需要变化y即可知道角度，因此无需对x进行修改
         return x1, x2, y1, y2
 
 
@@ -103,8 +106,10 @@ class Bottom():
         # end = datetime.datetime.now()
         # print(end - start)
         # cv2.waitKey(1)
+        
         if angle1 < 0:
             angle1 += 180
+        print(f"angle:{angle1}")
         if angle1 > 0 and angle1 < 77:
             return "自动", 0
             return "自动"

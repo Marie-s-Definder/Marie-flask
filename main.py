@@ -17,8 +17,12 @@ def Recognition():
     # 从POST读取数据
     data = request.json
     '''发送时候的url最好处理后发给flask，原路径保存'''
-    base = r'F:\CODE\project\marie-definder\mariee-api\data\snapshots'
+    # base = r'F:\CODE\project\marie-definder\mariee-api\data\snapshots'
+    base = r'D:\ALLPRJ\BackPrj\BC\mariee-api\data\snapshots'
+
     url = base +'\\'+ data.get('url')
+    # url = r'./k64.jpg'
+    print(url)
     # url = data.get('url')
     data = data.get('data')
     # 读取图片
@@ -27,7 +31,7 @@ def Recognition():
     try:
         pic = cv2.imread(url)
     except:
-        return "Wrong Url"
+        return "读取的Url有误，请检测是否发错Url"
     # 将要保存的图片url-需要修改
     savingurl = datetime.datetime.now().strftime('%Y%m%d%H%M%S') +'-result.jpg'# 结尾必须是.jpg
     returndata = {"url":savingurl}
@@ -40,11 +44,14 @@ def Recognition():
         dataa = {}
         # print(item)
         dataa['id'] = item['id']
+        # 按钮识别
         if item['type'] == 'buttom':
-            image, Width, Height = slide(pic, item['location'])
-            # 获取按钮状态
-            # cv2.imshow('a',image)
+            locations = yolov8m(pic, ButtonDetection = True)
+            # print(locations)
+            image, Width, Height = slide(pic, locations)
+            # cv2.imwrite('k63buttom.jpg',image)
             # cv2.waitKey()
+            # 获取按钮状态
             result, flag = BottomDet.decter(image)
             dataa['result'] = str(result)
             # 获取时间戳
@@ -62,11 +69,12 @@ def Recognition():
             # pic = boxdraw(pic, [int(x) for x in item['location'].split(',')], status, f"结果：{str(result)}，状态：{'正常' if status==0 else '异常'}")
             rowHeight -= 80
             pic = paddingdrawithcolor(pic,f"结果{str(resultIndex)}: 状态：{'正常' if status==0 else '异常'}",(0,rowHeight), status = status)
-            pic = boxdraw(pic, [int(x) for x in item['location'].split(',')], status, f"结果{str(resultIndex)}")
+            pic = boxdraw(pic, locations, status, f"结果{str(resultIndex)}")
             resultIndex += 1
 
         # 表识别
         elif item['type'] == 'meter':
+            
             image, Width, Height = slide(pic, item['location'])
             # 获取角度
             ang = meterDet.decter(image, item['zeroPoint'])
@@ -102,7 +110,7 @@ def Recognition():
             six = [int(x) for x in item['preset_boxes6'].split(',')]
             thebox = [one, two, three, four, five, six]
             results, draw_boxes = yolov8m(image, preset_boxes=thebox)
-            print(results)
+            # print(results)
             # 获取时间戳
             timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             #
@@ -161,10 +169,11 @@ def Recognition():
 
 # 抠图
 def slide(image,location):
-    
-    xl,yl,xb,yb = [int(x) for x in location.split(',')]
-    # print(image)
-    # print(xl,yl,xb,yb)
+
+    try:
+        xl,yl,xb,yb = [int(x) for x in location.split(',')]
+    except:
+        xl,yl,xb,yb = location[0],location[1],location[2],location[3]
     return image[yl:yb,xl:xb], xb-xl, yb-yl
 
 # 画框写字
