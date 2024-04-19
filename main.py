@@ -21,7 +21,7 @@ def Recognition():
     base = r'D:\ALLPRJ\BackPrj\BC\mariee-api\data\snapshots'
 
     url = base +'\\'+ data.get('url')
-    # url = r'./k64.jpg'
+    url = r'./k64.jpg'
     print(url)
     # url = data.get('url')
     data = data.get('data')
@@ -38,6 +38,15 @@ def Recognition():
     rowHeight, rowWidth, _ = pic.shape
 
     dataList = []
+    
+    # 增加透明模板
+    boxind = 1
+    for item in data:
+        if item['type'] == 'light':
+            boxind += 6
+            continue
+        boxind += 1
+    pic = addhalfpic(pic, rowHeight, addP = 80*boxind)
 
     resultIndex = 1
     for item in data:
@@ -159,7 +168,9 @@ def Recognition():
     # pic = cv2.copyMakeBorder(pic, 50, 50, 0, 0, cv2.BORDER_CONSTANT, value=(150, 150, 150))
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     rowHeight -= 80
-    pic = paddingdraw(pic, f"拍摄时间：{str(timestamp)}",(0,rowHeight))
+
+    pic = paddingdraw(pic, f"检测时间：{str(timestamp)}",(0,rowHeight))
+
     cv2.imwrite(savingurl, pic)
     # 将data加入json
     returndata['data'] = dataList
@@ -233,6 +244,17 @@ def paddingdrawithcolor(img,text,org,status):
         color = (255, 0, 0)
     # 在图像上绘制文本
     return cv2AddChineseText(img, text, org, color,textSize=60)
+
+    # 增加半透明模板
+def addhalfpic(pic,height,width = 750,addP = 80):
+    overlay = pic.copy()
+    # 创建蒙版
+    cv2.rectangle(overlay, (0, height-addP), (width, height), (128, 128, 128), -1)
+    # 将蒙版叠加
+    alpha = 0.7
+    cv2.addWeighted(overlay, alpha, pic, 1 - alpha, 0, pic)
+    return pic
+
 
 
 if __name__ == '__main__':
