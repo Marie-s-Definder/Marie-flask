@@ -40,8 +40,8 @@ def cut_pic(path):
     input = cv2.imread(path)
     # 均值漂移滤波
     dst = cv2.pyrMeanShiftFiltering(input, 10, 100)
-    cv2.imshow("dst", dst)
-    cv2.waitKey()
+    # cv2.imshow("dst", dst)
+    # cv2.waitKey()
     # 转换成灰度图
     cimage = cv2.cvtColor(dst, cv2.COLOR_BGR2GRAY)
     # 霍夫圆检测

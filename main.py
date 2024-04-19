@@ -21,7 +21,7 @@ def Recognition():
     base = r'D:\ALLPRJ\BackPrj\BC\mariee-api\data\snapshots'
 
     url = base +'\\'+ data.get('url')
-    # url = r'./k64.jpg'
+    url = r'./G68.jpg'
     # print(url)
     # url = data.get('url')
     data = data.get('data')
@@ -34,6 +34,7 @@ def Recognition():
         return "读取的Url有误，请检测是否发错Url"
     # 将要保存的图片url-需要修改
     savingurl = datetime.datetime.now().strftime('%Y%m%d%H%M%S') +'-result.jpg'# 结尾必须是.jpg
+    print(savingurl)
     returndata = {"url":savingurl}
     rowHeight, rowWidth, _ = pic.shape
 
