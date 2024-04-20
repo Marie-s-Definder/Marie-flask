@@ -20,7 +20,7 @@ def yolov8m(img, \
     detections = model.predict(source=img, save=True)  # train the model
     # print(detections[0].boxes.cls)
     if ButtonDetection:
-        indexOfButtom = detections[0].boxes.cls.numpy().tolist().index(6)# 此处为按钮的索引
+        indexOfButtom = detections[0].boxes.cls.numpy().tolist().index(3)# 此处为按钮的索引
         locations = detections[0].boxes[indexOfButtom].xyxy.squeeze().numpy().tolist()# 先压缩维度再转np再转list才能遍历
         # print(locations)
         for ind, _ in enumerate(locations):
@@ -31,43 +31,25 @@ def yolov8m(img, \
 
     # 定义匹配阈值
     # threshold = 400  # 这个阈值需要根据具体情况进行调整
-    # boxesList = {}
-    boxesList = []
+    boxesList = {}
+    # boxesList = []
     # print(detections[0].boxes.xyxy.squeeze().tolist())
     # print('=========================')
     # print(detections[0].boxes.cls.numpy().tolist())
     # print('=========================')
     for Abox, Acls in zip(detections[0].boxes.xyxy.squeeze().tolist(), detections[0].boxes.cls.numpy().tolist()):
-        # print(Abox, Acls)
-        # print('=========================')
+        print(Abox, Acls)
+        print('=========================')
         # boxesList.append(item.xyxy.squeeze())
 
-        if Acls in [0,2,4]:
-            outLabel = 0
-        elif  Acls in [1,3,5]:
-            outLabel = 1
-        else:
-            outLabel = 2
-            # raise KeyError
-        
-        boxesList.append((Abox,outLabel))
-    # print(boxesList)
+    sleep(1000)
+    boxesList[Acls] = (Abox.xyxy.squeeze())
     
-    
-    # lines = dict(sorted(boxesList.items(), key=lambda item: item[1]))
-    lines = sorted(boxesList, key=lambda b: (b[0][1]))
-    
+    lines = sorted(boxesList, key=lambda b: (b[1]))
     lineOne = lines[:3]#上面三个
-    # for i in lineOne:
-    #     print(i)
-    # print('=========================')
     lineTwo = lines[3:6]#下面三个
-    
-    boxesList = sorted(lineOne, key=lambda b: (b[0][0])) + sorted(lineTwo, key=lambda b: (b[0]))
-    # for j in boxesList:
-    #     print(j)
-    # sleep(1000)
-    
+    boxesList = sorted(lineOne, key=lambda b: (b[0])) + sorted(lineTwo, key=lambda b: (b[0]))
+
     '''预制框版本'''
     # for boxIndex, detection_box in enumerate(boxesList):
     #     '''
@@ -108,11 +90,11 @@ def yolov8m(img, \
     
 
 
-    return boxesList
-    # return output, preset_boxes
+                
+    return output, preset_boxes
 
 
 
 if __name__ == '__main__':
     img = cv2.imread("G67.jpg")
-    _= yolov8m(img)
+    _, _ = yolov8m(img)

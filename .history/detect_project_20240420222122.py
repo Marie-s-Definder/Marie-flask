@@ -20,7 +20,7 @@ def yolov8m(img, \
     detections = model.predict(source=img, save=True)  # train the model
     # print(detections[0].boxes.cls)
     if ButtonDetection:
-        indexOfButtom = detections[0].boxes.cls.numpy().tolist().index(6)# 此处为按钮的索引
+        indexOfButtom = detections[0].boxes.cls.numpy().tolist().index(3)# 此处为按钮的索引
         locations = detections[0].boxes[indexOfButtom].xyxy.squeeze().numpy().tolist()# 先压缩维度再转np再转list才能遍历
         # print(locations)
         for ind, _ in enumerate(locations):
@@ -41,16 +41,7 @@ def yolov8m(img, \
         # print(Abox, Acls)
         # print('=========================')
         # boxesList.append(item.xyxy.squeeze())
-
-        if Acls in [0,2,4]:
-            outLabel = 0
-        elif  Acls in [1,3,5]:
-            outLabel = 1
-        else:
-            outLabel = 2
-            # raise KeyError
-        
-        boxesList.append((Abox,outLabel))
+        boxesList.append((Abox,Acls))
     # print(boxesList)
     
     
@@ -67,7 +58,7 @@ def yolov8m(img, \
     # for j in boxesList:
     #     print(j)
     # sleep(1000)
-    
+
     '''预制框版本'''
     # for boxIndex, detection_box in enumerate(boxesList):
     #     '''
@@ -108,11 +99,11 @@ def yolov8m(img, \
     
 
 
-    return boxesList
-    # return output, preset_boxes
+                
+    return output, preset_boxes
 
 
 
 if __name__ == '__main__':
     img = cv2.imread("G67.jpg")
-    _= yolov8m(img)
+    _, _ = yolov8m(img)

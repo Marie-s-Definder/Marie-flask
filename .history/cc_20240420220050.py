@@ -27,8 +27,6 @@
 
 my_dict = {'a': 4, 'b': 7, 'c': 2, 'd': 9}
 
-sorted_dict = dict(sorted(my_dict.items(), key=lambda item: item[1], reverse=True))
+sorted_dict = dict(sorted(my_dict.items(), key=lambda item: item[1]))
 
-top_three = dict(list(sorted_dict.items())[:3])
-
-print(top_three)
+print(sorted_dict)

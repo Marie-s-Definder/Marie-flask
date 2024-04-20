@@ -22,7 +22,7 @@ def Recognition():
     base = r'D:\ALLPRJ\BackPrj\BC\mariee-api\data\snapshots'
 
     url = base +'\\'+ data.get('url')
-    url = r'./k64.jpg'
+    url = r'./G67.jpg'
     # print(url)
     # url = data.get('url')
     data = data.get('data')

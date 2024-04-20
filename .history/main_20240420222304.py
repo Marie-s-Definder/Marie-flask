@@ -22,7 +22,7 @@ def Recognition():
     base = r'D:\ALLPRJ\BackPrj\BC\mariee-api\data\snapshots'
 
     url = base +'\\'+ data.get('url')
-    url = r'./k64.jpg'
+    url = r'./G66.jpg'
     # print(url)
     # url = data.get('url')
     data = data.get('data')
@@ -121,7 +121,7 @@ def Recognition():
             # six = [int(x) for x in item['preset_boxes6'].split(',')]
             # thebox = [one, two, three, four, five, six]
             # results, draw_boxes = yolov8m(image, preset_boxes=thebox)
-            boxesList = yolov8m(image)
+            results, draw_boxes = yolov8m(image)
             # print(results)
             # 获取时间戳
             timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -131,11 +131,10 @@ def Recognition():
                 上界000001
                 下界000001
             '''
-            for index, (box2draw, outLabel) in enumerate(boxesList):
-                
-                # result = '1' if result else '0' # True为1，反之为0
+            for index, (result, box2draw) in enumerate(zip(results, draw_boxes)):
+                result = '1' if result else '0' # True为1，反之为0
                 normalvalue = ''.join(item['upperLimit'])
-                status = 0 if int(normalvalue[index])==outLabel else 1 # True为1，反之为0
+                status = 0 if normalvalue[index]==result else 1 # True为1，反之为0
 
                 # 加入列表
                 dataList.append({'id':Id+index,\
@@ -193,8 +192,8 @@ def slide(image,location):
 
 # 画框写字
 def boxdraw(img, location, status, text):
-    start_point = (int(location[0]), int(location[1]))  # 左上角坐标 (x, y)
-    end_point = (int(location[2]), int(location[3]))  # 右下角坐标 (x, y)
+    start_point = (location[0], location[1])  # 左上角坐标 (x, y)
+    end_point = (location[2], location[3])  # 右下角坐标 (x, y)
     # 定义矩形的颜色，BGR 格式
     color = (0, 255, 0)
     textcolor = color
