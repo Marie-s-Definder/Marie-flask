@@ -134,14 +134,13 @@ def Recognition():
             for index, (box2draw, outLabel) in enumerate(boxesList):
                 
                 # result = '1' if result else '0' # True为1，反之为0
-                # print(outLabel)
                 normalvalue = ''.join(item['upperLimit'])
                 status = 0 if int(normalvalue[index]) == outLabel else 1 # True为1，反之为0
 
                 # 加入列表
                 dataList.append({'id':Id+index,\
                                  "time": timestamp,\
-                                 "result": outLabel,\
+                                #  "result": result,\
                                  "status": status})# 跟上界不一样就直接判定为错
                 
                 # 直接画图

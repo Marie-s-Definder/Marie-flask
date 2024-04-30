@@ -134,7 +134,7 @@ def Recognition():
             for index, (box2draw, outLabel) in enumerate(boxesList):
                 
                 # result = '1' if result else '0' # True为1，反之为0
-                # print(outLabel)
+                print(outLabel)
                 normalvalue = ''.join(item['upperLimit'])
                 status = 0 if int(normalvalue[index]) == outLabel else 1 # True为1，反之为0
 
