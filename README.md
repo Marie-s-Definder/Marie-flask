@@ -18,3 +18,14 @@
 - main.py
   - 识别程序的主文件
 - **其他文件都暂时没用**
+
+- 几个docker的run指令
+```
+
+docker run -d --name mariee-api -v /home/marie/Mariee0331/data:/app/data -p 8080:8080 mariee-api:latest
+
+docker run --gpus all -v /home/marie/Mariee0331/data:/app -p 5000:5000 -itd --name mariee-flask-Using flask python /app/main.py
+
+docker run -d --name mariee-web-admin -p 90:80 mariee-web-admin:latest
+
+```
