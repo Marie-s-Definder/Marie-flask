@@ -21,15 +21,6 @@
                         [326, 114, 389, 173]]
       },
       {
-        "id": 3,
-        "type": "meter",
-        "location": [503,344,907,740],
-        "zeroPoint": [732, 735],
-        "unit":"°c",
-        "upperLimit":"40",
-        "lowerLimit":"20"
-      },
-      {
         "id": 4,
         "type": "iot",
         "deviceNname": "温度",
